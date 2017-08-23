@@ -139,20 +139,41 @@ PHP_MINFO_FUNCTION(lx)
 /* }}} */
 
 
+// construct method
+ZEND_METHOD(Lx, __construct)
+{
+	php_printf("construct method\n");
+}
+
+// destruct method
+ZEND_METHOD(Lx, __destruct)
+{
+	php_printf("destruct method\n");
+}
+
+// talk method
+ZEND_METHOD(Lx, talk)
+{
+	php_printf("public method talk\n");
+}
 /* {{{ lx_functions[]
  *
  * Every user visible function must have an entry in lx_functions[].
  */
 const zend_function_entry lx_functions[] = {
 	PHP_FE(confirm_lx_compiled,	NULL)		/* For testing, remove later. */
+	ZEND_ME(Lx, __construct, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+	ZEND_ME(Lx, __destruct, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
+	ZEND_ME(Lx, talk, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_FE_END	/* Must be the last line in lx_functions[] */
 };
 /* {{{ PHP_MINIT_FUNCTION
  */
+
 PHP_MINIT_FUNCTION(lx)
 {
 	zend_class_entry ce;
-	INIT_CLASS_ENTRY(ce, "Lx", lx_functions);
+	INIT_CLASS_ENTRY(ce, "Lx\\Mian", lx_functions);
 	lx_ce = zend_register_internal_class(&ce TSRMLS_CC);
 	/* If you have INI entries, uncomment these lines
 	REGISTER_INI_ENTRIES();
